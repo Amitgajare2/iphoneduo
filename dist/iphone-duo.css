@@ -1,0 +1,169 @@
+.idv {
+  position: relative;
+  display: block;
+  height: 100%;
+  min-height: 320px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "PingFang SC", sans-serif;
+  color: #242622;
+  font-synthesis: none;
+  container-type: inline-size;
+}
+
+.idv *,
+.idv *::before,
+.idv *::after {
+  box-sizing: border-box;
+}
+
+.idv-viewport {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.idv-viewport canvas {
+  display: block;
+  outline: none;
+}
+
+.idv-status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 13px;
+  color: #7b8373;
+}
+
+.idv-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  max-width: min(320px, calc(100% - 32px));
+  padding: 22px 26px;
+  text-align: center;
+  background: rgba(255, 255, 255, .95);
+  border: 1px solid #dfe3d8;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px -28px rgba(30, 36, 26, .4);
+}
+
+.idv-error p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.idv-error button,
+.idv-notice {
+  font: inherit;
+}
+
+.idv-error button {
+  padding: 9px 18px;
+  font-size: 13px;
+  color: #f7faf4;
+  background: #26301f;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.idv-notice {
+  position: absolute;
+  right: 24px;
+  bottom: calc(76px + env(safe-area-inset-bottom));
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #8a3d33;
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid #ecd3ce;
+  border-radius: 10px;
+}
+
+.idv-toggle {
+  position: absolute;
+  right: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid rgba(38, 44, 36, .55);
+  border-radius: 999px;
+  box-shadow: 0 14px 34px -22px rgba(24, 30, 20, .55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.idv-toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  color: #242622;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease, opacity .18s ease;
+}
+
+.idv-toggle button:hover:not(:disabled) {
+  background: #f1f3ee;
+}
+
+.idv-toggle button[aria-pressed="true"] {
+  color: #1e3a27;
+  background: #ddf2e3;
+  border-color: #b7dbc3;
+}
+
+.idv-toggle button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.idv-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.idv-toggle button:focus-visible,
+.idv-error button:focus-visible {
+  outline: 2px solid #7fa06a;
+  outline-offset: 3px;
+}
+
+@container (max-width: 520px) {
+  .idv-toggle {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .idv-toggle button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .idv-notice {
+    right: 16px;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}

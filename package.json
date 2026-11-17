@@ -1,0 +1,44 @@
+{
+  "name": "iphone-duo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A foldable iPhone preview component for React, built with Three.js",
+  "main": "./dist/iphone-duo.js",
+  "module": "./dist/iphone-duo.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/iphone-duo.js",
+      "default": "./dist/iphone-duo.js"
+    },
+    "./style.css": "./dist/iphone-duo.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "types",
+    "docs",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node scripts/build-app.mjs",
+    "build:lib": "node scripts/build-lib.mjs",
+    "build:registry": "node scripts/build-registry.mjs",
+    "dev": "node scripts/build-app.mjs --watch",
+    "serve": "node scripts/serve.mjs",
+    "prepack": "npm run build:lib"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "three": ">=0.160.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
