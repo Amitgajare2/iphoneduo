@@ -54,23 +54,7 @@ components/iphone-duo/
 
 It also adds `three` to your dependencies. Your project needs a `components.json` — run `npx shadcn@latest init` first if it does not have one.
 
-**Prefer a bare name?** Add a registry namespace to `components.json`:
-
-```json
-{
-  "registries": {
-    "@iphone-duo": "https://iphoneduoui.netlify.app/r/{name}.json"
-  }
-}
-```
-
-Then install by name:
-
-```sh
-npx shadcn@latest add @iphone-duo/iphone-duo
-```
-
-A bare `npx shadcn@latest add iphone-duo` only works for components in shadcn's own registry. Custom registries are resolved through a URL or a configured namespace, which is why one of the two commands above is required.
+A bare `npx shadcn@latest add iphone-duo` only works for components in shadcn's own registry; custom registries are resolved through a URL, which is why the command above includes one.
 
 **Local testing:** serve this repository over HTTP and point the CLI at your own machine:
 
@@ -510,7 +494,7 @@ The stylesheet uses system fonts and light colors to match the demo. It does not
 | A blank or black screen on an old browser | The viewer needs WebGL 2. Check `chrome://gpu` or the browser's WebGL support. |
 | AVIF artwork fails on older Safari | Use PNG, JPEG, or WebP for `closedImage` / `openImage`. |
 | Styles look unstyled | Import `iphone-duo/style.css` (package), keep the component's `IPhoneDuoViewer.css` import (shadcn), or import it once yourself (source copy). In the Pages Router, global CSS belongs in `pages/_app.jsx`. |
-| `npx shadcn add iphone-duo` finds nothing | Custom registries need a URL or a namespace. Use `npx shadcn@latest add https://iphoneduoui.netlify.app/r/iphone-duo.json`, or configure `@iphone-duo` in `components.json` first. |
+| `npx shadcn add iphone-duo` finds nothing | Custom registries need a URL. Use `npx shadcn@latest add https://iphoneduoui.netlify.app/r/iphone-duo.json`. |
 
 ---
 

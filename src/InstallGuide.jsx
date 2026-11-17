@@ -12,14 +12,6 @@ const ARTWORK = {
 
 const SHADCN_COMMAND = `npx shadcn@latest add ${REGISTRY_URL}`;
 
-const REGISTRY_CONFIG = `{
-  "registries": {
-    "@iphone-duo": "${SITE_URL}/r/{name}.json"
-  }
-}`;
-
-const SHADCN_NAMESPACE_COMMAND = 'npx shadcn@latest add @iphone-duo/iphone-duo';
-
 const APP_ROUTER = `'use client';
 
 import IPhoneDuoViewer from '@/components/iphone-duo/IPhoneDuoViewer';
@@ -352,7 +344,50 @@ function jump(id) {
   element.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
 }
 
+function useActiveSection(ids) {
+  const [active, setActive] = useState(ids[0]);
+
+  useEffect(() => {
+    const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+    if (!sections.length) return;
+
+    function pick() {
+      let current = sections[0].id;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= 120) current = section.id;
+      }
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (atBottom) current = sections[sections.length - 1].id;
+      return current;
+    }
+
+    function onScroll() {
+      setActive(pick());
+    }
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [ids]);
+
+  return [active, setActive];
+}
+
+const NAV_IDS = NAV_ITEMS.map(item => item.id);
+
 export default function InstallGuide() {
+  const [activeSection, setActiveSection] = useActiveSection(NAV_IDS);
+
+  function goTo(id) {
+    setActiveSection(id);
+    jump(id);
+  }
+
   return (
     <main id="main" className="docs">
       <header className="site-nav">
@@ -363,13 +398,18 @@ export default function InstallGuide() {
           </a>
           <nav className="nav-links" aria-label="Sections">
             {NAV_ITEMS.map(item => (
-              <button key={item.id} type="button" onClick={() => jump(item.id)}>
+              <button
+                key={item.id}
+                type="button"
+                aria-current={activeSection === item.id ? 'true' : undefined}
+                onClick={() => goTo(item.id)}
+              >
                 {item.label}
               </button>
             ))}
           </nav>
           <div className="nav-actions">
-            <button type="button" className="nav-cta" onClick={() => jump('install')}>
+            <button type="button" className="nav-cta" onClick={() => goTo('install')}>
               Install
             </button>
             <a
@@ -467,13 +507,6 @@ export default function InstallGuide() {
                   <code>components/iphone-duo</code>.
                 </p>
                 <CodeBlock label="Terminal" code={SHADCN_COMMAND} />
-                <p className="step-note">
-                  Using a registry namespace? Add it to <code>components.json</code> once.
-                </p>
-                <div className="step-pair">
-                  <CodeBlock label="components.json" code={REGISTRY_CONFIG} compact />
-                  <CodeBlock label="Terminal" code={SHADCN_NAMESPACE_COMMAND} compact />
-                </div>
                 <ul className="file-list">
                   <li><code>IPhoneDuoViewer.tsx</code><span>component and control</span></li>
                   <li><code>fold-viewer.js</code><span>WebGL scene and fold</span></li>
